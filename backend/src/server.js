@@ -1,17 +1,23 @@
 import dotenv from "dotenv"
 import express, { urlencoded } from "express"
+import cors from "cors"
 import { prisma } from "./config/prisma.js";
 import authRoutes from './routes/auth.js'
 import boardRoutes from './routes/board.js'
 import columnRoutes from './routes/column.js'
 import taskRoutes from './routes/task.js'
 
-
+dotenv.config()
 
 const PORT = process.env.PORT || 4000
-
-dotenv.config()
 const app = express()
+
+app.use(cors({
+    origin: process.env.FRONTEND_URL, 
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
@@ -21,8 +27,6 @@ app.use('/auth', authRoutes)
 app.use('/board', boardRoutes)
 app.use('/', columnRoutes)
 app.use('/', taskRoutes)
-
-
 
 app.get('/health', async (req, res) => {
     try {
