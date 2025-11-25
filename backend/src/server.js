@@ -4,6 +4,7 @@ import { prisma } from "./config/prisma.js";
 import authRoutes from './routes/auth.js'
 import boardRoutes from './routes/board.js'
 import columnRoutes from './routes/column.js'
+import taskRoutes from './routes/task.js'
 
 
 
@@ -19,6 +20,7 @@ app.use(urlencoded({ extended: true }))
 app.use('/auth', authRoutes)
 app.use('/board', boardRoutes)
 app.use('/', columnRoutes)
+app.use('/', taskRoutes)
 
 
 
