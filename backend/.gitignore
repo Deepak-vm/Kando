@@ -11,3 +11,5 @@ prisma/migrations/*.sql
 # IDE
 .vscode/
 .idea/
+
+/src/generated/prisma
