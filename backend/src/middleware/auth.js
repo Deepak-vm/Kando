@@ -5,19 +5,22 @@ const verifyToken = (token) => {
     return jwt.verify(token, JWT_SECRET)
 }
 
-export const authMiddleware = (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(' ')[1];
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: "No token provided" });
+        }
+
+        const token = authHeader.split(' ')[1];
 
         if (!token) {
-            return res.status(401).json({
-                error: 'Access token required',
-                message: 'Token is missing'
-            });
+            return res.status(401).json({ message: "Invalid token format" });
         }
 
         const decoded = verifyToken(token);
-        req.user = decoded.userId;
+        req.user = decoded;
         next();
 
     } catch (error) {
