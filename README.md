@@ -152,40 +152,7 @@ npm run dev
 
 Frontend will run on `http://localhost:5173`
 
-## 🗄️ Database Schema
 
-```prisma
-model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  password String
-  name     String
-  boards   Board[]
-}
-
-model Board {
-  id      String   @id @default(uuid())
-  name    String
-  userId  String
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  columns Column[]
-}
-
-model Column {
-  id      String @id @default(uuid())
-  name    String
-  boardId String
-  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  tasks   Task[]
-}
-
-model Task {
-  id       String @id @default(uuid())
-  title    String
-  columnId String
-  column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
-}
-```
 
 ## 🔐 API Endpoints
 
@@ -216,47 +183,7 @@ model Task {
 ### Health Check
 - `GET /health` - Check database connection
 
-## 🚀 Deployment
 
-### Backend (Render)
-
-1. Create a PostgreSQL database on Render
-2. Create a new Web Service
-3. Connect your GitHub repository
-4. Configure:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
-5. Add environment variables:
-   ```
-   DATABASE_URL=<your-postgres-url>
-   JWT_SECRET=<your-secret-key>
-   PORT=3000
-   FRONTEND_URL=<your-vercel-url>
-   ```
-
-### Frontend (Vercel)
-
-1. Import your GitHub repository
-2. Configure:
-   - **Framework**: Vite
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-3. Add environment variable:
-   ```
-   VITE_BACKEND_URL=<your-render-url>
-   ```
-
-## 🎯 Usage
-
-1. **Register**: Create a new account with name, email, and password
-2. **Login**: Sign in with your credentials
-3. **Create Board**: Click "Create New Board" and enter a board name
-4. **Add Columns**: Click "+ Add Column" to create columns (e.g., To Do, In Progress, Done)
-5. **Add Tasks**: Click "+ Add Task" in any column to create tasks
-6. **Manage**: Delete boards, columns, or tasks as needed
-7. **Logout**: Click "Logout" to end your session
 
 ## 🔒 Security Features
 
@@ -268,33 +195,7 @@ model Task {
 - **Ownership Verification**: Users can only access their own data
 - **Cascade Deletes**: Automatic cleanup of related data
 
-## 🧪 Testing
-
-```bash
-# Backend
-cd backend
-npm test
-
-# Frontend
-cd frontend
-npm test
 ```
-
-## 📝 Environment Variables
-
-### Backend (.env)
-```
-DATABASE_URL=          # PostgreSQL connection string
-JWT_SECRET=            # Secret key for JWT tokens
-PORT=                  # Server port (default: 3000)
-FRONTEND_URL=          # Frontend URL for CORS
-```
-
-### Frontend (.env)
-```
-VITE_BACKEND_URL=      # Backend API URL
-```
-
 ## 🙏 Acknowledgments
 
 - [Trello](https://trello.com) - Original inspiration
@@ -312,12 +213,8 @@ VITE_BACKEND_URL=      # Backend API URL
 - [ ] Task descriptions and due dates
 - [ ] Board sharing and collaboration
 - [ ] Real-time updates with WebSockets
-- [ ] Task labels and priorities
-- [ ] Activity log and history
 - [ ] Email notifications
-- [ ] Mobile app (React Native)
 - [ ] Dark mode
-- [ ] Archive functionality
 
 ---
 
