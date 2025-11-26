@@ -193,21 +193,19 @@ Frontend will run on `http://localhost:5173`
 - **CORS Configuration**: Controlled cross-origin access
 - **Input Validation**: Server-side validation on all inputs
 - **Ownership Verification**: Users can only access their own data
-- **Cascade Deletes**: Automatic cleanup of related data
+- **Cascade Deletes**: Automatically cleans up related data
 
-```
-## 🙏 Acknowledgments
+### 🙏 Acknowledgments
 
-- [Trello](https://trello.com) - Original inspiration
-- [Headless UI](https://headlessui.com/) - Accessible components
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [Prisma](https://www.prisma.io/) - Database ORM
-- [Render](https://render.com/) - Backend hosting
-- [Vercel](https://vercel.com/) - Frontend hosting
-
+- [Trello](https://trello.com) – Original inspiration  
+- [Headless UI](https://headlessui.com/) – Accessible components  
+- [Tailwind CSS](https://tailwindcss.com/) – Styling  
+- [Prisma](https://www.prisma.io/) – Database ORM  
+- [Render](https://render.com/) – Backend hosting  
+- [Vercel](https://vercel.com/) – Frontend hosting  
 
 
-## 🗺️ Future Updates
+### 🗺️ Future Updates
 
 - [ ] Drag and drop functionality for tasks
 - [ ] Task descriptions and due dates
@@ -216,5 +214,5 @@ Frontend will run on `http://localhost:5173`
 - [ ] Email notifications
 - [ ] Dark mode
 
----
+```
 
