@@ -57,7 +57,7 @@ A modern, full-stack Kanban board application built with React, Node.js, Express
 ## 📁 Project Structure
 
 ```
-trello-lite/
+Kando/
 ├── frontend/                 # React frontend application
 │   ├── src/
 │   │   ├── components/      # Reusable UI components
@@ -106,8 +106,8 @@ trello-lite/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Deepak-vm/trello-lite.git
-cd trello-lite
+git clone https://github.com/Deepak-vm/Kando.git
+cd Kando
 ```
 
 ### 2. Backend Setup
@@ -124,7 +124,7 @@ cp .env.example .env
 
 **Configure `.env` file:**
 ```bash
-DATABASE_URL="postgresql://username:password@localhost:5432/trello_lite"
+DATABASE_URL="postgresql://username:password@localhost:5432/Kando"
 JWT_SECRET="your-super-secret-jwt-key-change-in-production"
 PORT=3000
 FRONTEND_URL="http://localhost:5173"
