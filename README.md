@@ -1,42 +1,68 @@
-# Trello Lite 📋
+# Kando 📋
 
-A modern, full-stack Kanban board application inspired by Trello, built with React, Node.js, Express, and PostgreSQL.
+A modern, full-stack Kanban board application built with React, Node.js, Express, and PostgreSQL. Features drag-and-drop functionality, task priorities, file attachments, and real-time board management.
 
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-green.svg)
-![React](https://img.shields.io/badge/react-18.3.1-blue.svg)
+![React](https://img.shields.io/badge/react-19.2.0-blue.svg)
+![Prisma](https://img.shields.io/badge/prisma-5.22.0-2D3748.svg)
 
 ## 🌟 Features
 
+### Core Functionality
 - **User Authentication**: Secure registration and login with JWT tokens
-- **Board Management**: Create, view, and delete project boards
-- **Kanban Columns**: Organize tasks into customizable columns (To Do, In Progress, Done, etc.)
-- **Task Management**: Create, view, and delete tasks within columns
+- **Board Management**: Create, view, update, and delete project boards
+- **Column Management**: Organize tasks into customizable columns with drag-and-drop reordering
+- **Advanced Task Management**: 
+  - Create tasks with titles, descriptions, and detailed information
+  - Priority levels (Low, Medium, High, Urgent) with color-coded indicators
+  - Due dates with overdue detection
+  - Drag-and-drop tasks within and between columns
+  - Position-based ordering
+- **File Attachments**: Upload and manage files using Cloudinary integration (up to 10MB)
+- **Task Details Modal**: View and edit complete task information in a dedicated modal
 - **Secure API**: Protected routes with JWT middleware
-- **Database Persistence**: PostgreSQL with Prisma ORM
+- **Database Persistence**: PostgreSQL with Prisma ORM (Supabase)
+
+### User Experience
+- **Drag & Drop**: Intuitive task and column reordering using @dnd-kit
+- **Visual Indicators**: 
+  - Color-coded priority badges
+  - Overdue task highlighting
+  - Attachment count display
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Toast Notifications**: Real-time feedback for all actions
+- **Modern UI**: Beautiful interface with Tailwind CSS v4 and Headless UI
 
 ## 🚀 Live Demo
 
-- **Frontend**: [https://trello-lite-pi.vercel.app](https://trello-lite-pi.vercel.app)
-- **Backend API**: [https://trello-lite-backend-tr8f.onrender.com](https://trello-lite-backend-tr8f.onrender.com)
+- **Frontend**: [https://kando.vercel.app](https://kando.vercel.app)
+- **Backend API**: [https://kando-backend.onrender.com](https://kando-backend.onrender.com)
+
+> **Note**: Update these URLs with your actual deployed links
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
+- **React 19** - Latest UI library
+- **Vite 7** - Next-generation build tool and dev server
 - **React Router 7** - Client-side routing
 - **Tailwind CSS v4** - Utility-first CSS framework
+- **@dnd-kit** - Modern drag-and-drop toolkit
 - **Headless UI** - Accessible UI components
+- **Heroicons** - Beautiful hand-crafted SVG icons
 - **React Hot Toast** - Toast notifications
 - **Axios** - HTTP client
+- **Framer Motion** - Animation library
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express** - Web framework
-- **Prisma** - Database ORM
-- **PostgreSQL** - Database
-- **JWT** - Authentication
+- **Node.js** - JavaScript runtime environment
+- **Express** - Minimalist web framework
+- **Prisma** - Next-generation ORM
+- **PostgreSQL** - Powerful relational database (Supabase)
+- **JWT** - JSON Web Token authentication
 - **bcryptjs** - Password hashing
+- **Cloudinary** - Cloud-based file storage
+- **Multer** - File upload middleware
 - **CORS** - Cross-origin resource sharing
 
 ## 📁 Project Structure
@@ -207,12 +233,9 @@ Frontend will run on `http://localhost:5173`
 
 ### 🗺️ Future Updates
 
-- [ ] Drag and drop functionality for tasks
 - [ ] Task descriptions and due dates
 - [ ] Board sharing and collaboration
 - [ ] Real-time updates with WebSockets
 - [ ] Email notifications
 - [ ] Dark mode
-
-```
 

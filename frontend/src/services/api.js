@@ -48,13 +48,26 @@ export const columnAPI = {
     create: (boardId, data) => api.post(`/boards/${boardId}/columns`, data),
     update: (id, data) => api.put(`/columns/${id}`, data),
     delete: (id) => api.delete(`/columns/${id}`),
+    reorder: (data) => api.post('/columns/reorder', data),
 };
 
 export const taskAPI = {
     getAll: (columnId) => api.get(`/columns/${columnId}/tasks`),
+    getById: (id) => api.get(`/tasks/${id}`),
     create: (columnId, data) => api.post(`/columns/${columnId}/tasks`, data),
     update: (id, data) => api.put(`/tasks/${id}`, data),
     delete: (id) => api.delete(`/tasks/${id}`),
+    reorder: (data) => api.post('/tasks/reorder', data),
+    uploadAttachment: (taskId, file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return api.post(`/tasks/${taskId}/attachments`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    },
+    deleteAttachment: (attachmentId) => api.delete(`/attachments/${attachmentId}`),
 };
 
 export default api;
