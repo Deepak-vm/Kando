@@ -12,7 +12,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'trello-lite-attachments',
+        folder: 'Kando-attachments',
         allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'],
         resource_type: 'auto'
     }
