@@ -23,22 +23,11 @@ A modern, full-stack Kanban board application built with React, Node.js, Express
 - **Secure API**: Protected routes with JWT middleware
 - **Database Persistence**: PostgreSQL with Prisma ORM (Supabase)
 
-### User Experience
-- **Drag & Drop**: Intuitive task and column reordering using @dnd-kit
-- **Visual Indicators**: 
-  - Color-coded priority badges
-  - Overdue task highlighting
-  - Attachment count display
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Toast Notifications**: Real-time feedback for all actions
-- **Modern UI**: Beautiful interface with Tailwind CSS v4 and Headless UI
-
 ## 🚀 Live Demo
 
-- **Frontend**: [https://kando.vercel.app](https://kando.vercel.app)
-- **Backend API**: [https://kando-backend.onrender.com](https://kando-backend.onrender.com)
+- **Frontend**: [https://kando-app.vercel.app](https://kando-app.vercel.app)
+- **Backend API**: [https://kando-mzmg.onrender.com](https://kando-mzmg.onrender.com)
 
-> **Note**: Update these URLs with your actual deployed links
 
 ## 🛠️ Tech Stack
 
@@ -221,19 +210,9 @@ Frontend will run on `http://localhost:5173`
 - **Ownership Verification**: Users can only access their own data
 - **Cascade Deletes**: Automatically cleans up related data
 
-### 🙏 Acknowledgments
-
-- [Trello](https://trello.com) – Original inspiration  
-- [Headless UI](https://headlessui.com/) – Accessible components  
-- [Tailwind CSS](https://tailwindcss.com/) – Styling  
-- [Prisma](https://www.prisma.io/) – Database ORM  
-- [Render](https://render.com/) – Backend hosting  
-- [Vercel](https://vercel.com/) – Frontend hosting  
-
 
 ### 🗺️ Future Updates
 
-- [ ] Task descriptions and due dates
 - [ ] Board sharing and collaboration
 - [ ] Real-time updates with WebSockets
 - [ ] Email notifications
