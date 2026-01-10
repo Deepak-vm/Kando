@@ -246,7 +246,7 @@ const BoardDetail = () => {
             setColumns(
                 columns.map((col) =>
                     col.id === selectedColumnId
-                        ? { ...col, tasks: [...col.tasks, response.data.task] }
+                        ? { ...col, tasks: [...(col.tasks || []), response.data.task] }
                         : col
                 )
             );
@@ -272,7 +272,7 @@ const BoardDetail = () => {
             setColumns(
                 columns.map((col) =>
                     col.id === columnId
-                        ? { ...col, tasks: col.tasks.filter((task) => task.id !== taskId) }
+                        ? { ...col, tasks: (col.tasks || []).filter((task) => task.id !== taskId) }
                         : col
                 )
             );
@@ -295,7 +295,7 @@ const BoardDetail = () => {
     const handleTaskUpdate = (updatedTask) => {
         setColumns(columns.map(col => ({
             ...col,
-            tasks: col.tasks.map(task =>
+            tasks: (col.tasks || []).map(task =>
                 task.id === updatedTask.id ? updatedTask : task
             )
         })));
@@ -314,7 +314,7 @@ const BoardDetail = () => {
             return;
         }
 
-        const activeTask = columns.flatMap(col => col.tasks).find(t => t.id === active.id);
+        const activeTask = columns.flatMap(col => col.tasks || []).find(t => t.id === active.id);
         const activeColumn = columns.find(col => col.id === active.id);
 
         // Handle column reordering
@@ -340,12 +340,12 @@ const BoardDetail = () => {
         }
         // Handle task reordering
         else if (activeTask) {
-            const sourceColumn = columns.find(col => col.tasks.some(t => t.id === active.id));
+            const sourceColumn = columns.find(col => (col.tasks || []).some(t => t.id === active.id));
             let destinationColumn = columns.find(col => col.id === over.id);
 
             // If dropped on a task, find its column
             if (!destinationColumn) {
-                destinationColumn = columns.find(col => col.tasks.some(t => t.id === over.id));
+                destinationColumn = columns.find(col => (col.tasks || []).some(t => t.id === over.id));
             }
 
             if (!sourceColumn || !destinationColumn) {
@@ -353,21 +353,21 @@ const BoardDetail = () => {
                 return;
             }
 
-            const sourceIndex = sourceColumn.tasks.findIndex(t => t.id === active.id);
+            const sourceIndex = (sourceColumn.tasks || []).findIndex(t => t.id === active.id);
             let destinationIndex;
 
             if (destinationColumn.id === over.id) {
                 // Dropped on column itself - add to end
-                destinationIndex = destinationColumn.tasks.length;
+                destinationIndex = (destinationColumn.tasks || []).length;
             } else {
                 // Dropped on a task
-                destinationIndex = destinationColumn.tasks.findIndex(t => t.id === over.id);
+                destinationIndex = (destinationColumn.tasks || []).findIndex(t => t.id === over.id);
             }
 
             if (sourceColumn.id === destinationColumn.id) {
                 // Same column reorder
                 if (sourceIndex !== destinationIndex) {
-                    const newTasks = arrayMove(sourceColumn.tasks, sourceIndex, destinationIndex);
+                    const newTasks = arrayMove(sourceColumn.tasks || [], sourceIndex, destinationIndex);
                     setColumns(columns.map(col =>
                         col.id === sourceColumn.id ? { ...col, tasks: newTasks } : col
                     ));
@@ -387,8 +387,8 @@ const BoardDetail = () => {
                 }
             } else {
                 // Move between columns
-                const newSourceTasks = sourceColumn.tasks.filter(t => t.id !== active.id);
-                const newDestTasks = [...destinationColumn.tasks];
+                const newSourceTasks = (sourceColumn.tasks || []).filter(t => t.id !== active.id);
+                const newDestTasks = [...(destinationColumn.tasks || [])];
                 newDestTasks.splice(destinationIndex, 0, activeTask);
 
                 setColumns(columns.map(col => {

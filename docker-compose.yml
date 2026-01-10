@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # The Database
+  db:
+    image: postgres:15-alpine
+    container_name: kando_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    
+  # The Backend
+  api: 
+    build: ./backend
+    container_name: kando_api
+    environment:
+      DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public"
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: 3000
+      FRONTEND_URL: "${FRONTEND_URL}"
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+
+  # The Frontend
+  web: 
+    build: ./frontend
+    container_name: kando_web
+    environment:
+      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres_data:

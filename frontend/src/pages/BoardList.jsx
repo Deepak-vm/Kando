@@ -107,7 +107,7 @@ const BoardList = () => {
                     </button>
 
                     {/* Board Cards */}
-                    {boards.map((board) => (
+                    {(boards || []).map((board) => (
                         <div
                             key={board.id}
                             className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow min-h-[200px] flex flex-col"
@@ -119,7 +119,7 @@ const BoardList = () => {
                                 <h3 className="text-xl font-semibold text-gray-800">
                                     {board.name}
                                 </h3>
-                                
+
                             </Link>
                             <div className="px-6 py-4 border-t border-gray-200">
                                 <button
