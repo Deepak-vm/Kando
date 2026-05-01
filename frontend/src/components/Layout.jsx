@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
             {/* Sidebar */}
             <aside className="w-60 bg-gray-900 text-white flex flex-col flex-shrink-0">
                 <div className="p-5 border-b border-gray-700">
-                    <h1 className="text-xl font-bold text-white tracking-tight">TaskFlow</h1>
+                    <h1 className="text-xl font-bold text-white tracking-tight">Kando</h1>
                     <p className="text-gray-400 text-sm mt-1 truncate">{user?.name}</p>
                     <div className="flex items-center gap-2 mt-1">
                         <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
@@ -37,8 +37,8 @@ const Layout = ({ children }) => {
                                 key={to}
                                 to={to}
                                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm font-medium ${isActive
-                                        ? 'bg-blue-600 text-white'
-                                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                                     }`}
                             >
                                 <span className="text-base">{icon}</span>
