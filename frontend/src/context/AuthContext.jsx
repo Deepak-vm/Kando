@@ -18,8 +18,13 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
-            setUser({ token });
+        const userData = localStorage.getItem('user');
+        if (token && userData) {
+            try {
+                setUser({ token, ...JSON.parse(userData) });
+            } catch {
+                setUser({ token });
+            }
         }
         setLoading(false);
     }, []);
@@ -27,9 +32,10 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const response = await authAPI.login({ email, password });
-            const { token } = response.data;
+            const { token, user: userData } = response.data;
             localStorage.setItem('token', token);
-            setUser({ token });
+            localStorage.setItem('user', JSON.stringify(userData));
+            setUser({ token, ...userData });
             toast.success('Login successful!');
             return true;
         } catch (error) {
@@ -40,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (name, email, password) => {
         try {
-            const response = await authAPI.register({ name, email, password });
+            await authAPI.register({ name, email, password });
             toast.success('Registration successful! Please login.');
             return true;
         } catch (error) {
@@ -51,6 +57,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setUser(null);
         toast.success('Logged out successfully');
     };

@@ -62,7 +62,12 @@ export const registerUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error('Registration error:', error.message);
+        if (error.code === 'P1001') {
+            return res.status(503).json({
+                message: "Database is unreachable. Please try again later."
+            });
+        }
         res.status(500).json({
             message: "Internal server error"
         });
@@ -111,7 +116,12 @@ export const loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Login error:', error);
+        console.error('Login error:', error.message);
+        if (error.code === 'P1001') {
+            return res.status(503).json({
+                message: "Database is unreachable. Please try again later."
+            });
+        }
         res.status(500).json({
             message: "Internal server error"
         });

@@ -1,28 +1,16 @@
 import express from 'express';
 import { authMiddleware } from '../middleware/auth.js';
-import { upload } from '../config/cloudinary.js';
-import {
-    createTask,
-    getTasks,
-    getTask,
-    updateTask,
-    deleteTask,
-    reorderTasks,
-    uploadAttachment,
-    deleteAttachment
-} from '../controllers/taskController.js';
+import { validate } from '../middleware/validate.js';
+import { createTask, getTask, updateTask, deleteTask, reorderTasks } from '../controllers/taskController.js';
+import { taskSchema, taskUpdateSchema, reorderTasksSchema } from '../validation/schemas.js';
 
 const router = express.Router();
-
 router.use(authMiddleware);
 
-router.post('/columns/:columnId/tasks', createTask);
-router.get('/columns/:columnId/tasks', getTasks);
-router.get('/tasks/:id', getTask);
-router.put('/tasks/:id', updateTask);
-router.delete('/tasks/:id', deleteTask);
-router.post('/tasks/reorder', reorderTasks);
-router.post('/tasks/:taskId/attachments', upload.single('file'), uploadAttachment);
-router.delete('/attachments/:attachmentId', deleteAttachment);
+router.post('/columns/:columnId/tasks', validate(taskSchema), createTask);
+router.get('/tasks/:taskId', getTask);
+router.put('/tasks/:taskId', validate(taskUpdateSchema), updateTask);
+router.delete('/tasks/:taskId', deleteTask);
+router.post('/tasks/reorder', validate(reorderTasksSchema), reorderTasks);
 
 export default router;

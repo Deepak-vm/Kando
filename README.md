@@ -1,220 +1,237 @@
-# Kando 📋
+# TaskFlow — Project Management App
 
-A modern, full-stack Kanban board application built with React, Node.js, Express, and PostgreSQL. Features drag-and-drop functionality, task priorities, file attachments, and real-time board management.
+A full-stack project management application with role-based access control, Kanban boards, task assignment, and a live dashboard. Built with React, Node.js, Express, PostgreSQL, and Prisma.
 
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-green.svg)
 ![React](https://img.shields.io/badge/react-19.2.0-blue.svg)
 ![Prisma](https://img.shields.io/badge/prisma-5.22.0-2D3748.svg)
 
-## 🌟 Features
+## Features
 
-### Core Functionality
-- **User Authentication**: Secure registration and login with JWT tokens
-- **Board Management**: Create, view, update, and delete project boards
-- **Column Management**: Organize tasks into customizable columns with drag-and-drop reordering
-- **Advanced Task Management**: 
-  - Create tasks with titles, descriptions, and detailed information
-  - Priority levels (Low, Medium, High, Urgent) with color-coded indicators
-  - Due dates with overdue detection
-  - Drag-and-drop tasks within and between columns
-  - Position-based ordering
-- **File Attachments**: Upload and manage files using Cloudinary integration (up to 10MB)
-- **Task Details Modal**: View and edit complete task information in a dedicated modal
-- **Secure API**: Protected routes with JWT middleware
-- **Database Persistence**: PostgreSQL with Prisma ORM (Supabase)
+### Authentication
+- Signup and login with JWT tokens
+- Passwords hashed with bcryptjs
+- Auth state persisted across page refreshes
 
-## 🚀 Live Demo
+### Projects & Team Management
+- Create projects with a name and description
+- Invite team members by email
+- Per-project roles: **Admin** and **Member**
+- Admins can change member roles or remove members
+- Project owner cannot be removed
 
-- **Frontend**: [https://kando-app.vercel.app](https://kando-app.vercel.app)
-- **Backend API**: [https://kando-mzmg.onrender.com](https://kando-mzmg.onrender.com)
+### Task Management
+- Tasks live inside columns on a Kanban board
+- Full task form: title, description, status, priority, due date, assignee
+- Tasks can only be assigned to project members
+- Status: `TODO` → `IN PROGRESS` → `IN REVIEW` → `DONE`
+- Priority levels: `LOW` / `MEDIUM` / `HIGH` / `URGENT` with colour-coded left borders
+- Overdue detection based on due date
+- Drag-and-drop tasks within and between columns
+- Drag-and-drop to reorder columns
 
+### Dashboard
+- Total projects and how many you administrate
+- Tasks assigned to you, created by you, and overdue count
+- Status breakdown (TODO / IN PROGRESS / IN REVIEW / DONE)
+- Overdue tasks list with priority indicators
+- Recent activity feed
 
-## 🛠️ Tech Stack
+### Role-Based Access Control
+| Action | Admin | Member |
+|--------|-------|--------|
+| Create / delete project | ✅ | ❌ |
+| Add / remove members | ✅ | ❌ |
+| Change member roles | ✅ | ❌ |
+| Add / delete columns | ✅ | ❌ |
+| Create tasks | ✅ | ✅ |
+| Update tasks | ✅ | ✅ |
+| Delete own tasks | ✅ | ✅ |
+| Delete any task | ✅ | ❌ |
+
+## Tech Stack
 
 ### Frontend
-- **React 19** - Latest UI library
-- **Vite 7** - Next-generation build tool and dev server
-- **React Router 7** - Client-side routing
-- **Tailwind CSS v4** - Utility-first CSS framework
-- **@dnd-kit** - Modern drag-and-drop toolkit
-- **Headless UI** - Accessible UI components
-- **Heroicons** - Beautiful hand-crafted SVG icons
-- **React Hot Toast** - Toast notifications
-- **Axios** - HTTP client
-- **Framer Motion** - Animation library
+- **React 19** with Vite 7
+- **React Router 7** — client-side routing
+- **Tailwind CSS v4** — utility-first styling
+- **@dnd-kit** — drag-and-drop
+- **Axios** — HTTP client
+- **React Hot Toast** — notifications
 
 ### Backend
-- **Node.js** - JavaScript runtime environment
-- **Express** - Minimalist web framework
-- **Prisma** - Next-generation ORM
-- **PostgreSQL** - Powerful relational database (Supabase)
-- **JWT** - JSON Web Token authentication
-- **bcryptjs** - Password hashing
-- **Cloudinary** - Cloud-based file storage
-- **Multer** - File upload middleware
-- **CORS** - Cross-origin resource sharing
+- **Node.js + Express** — REST API
+- **Prisma ORM** — database access
+- **PostgreSQL** (Supabase) — relational database
+- **JWT** — stateless authentication
+- **bcryptjs** — password hashing
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Kando/
-├── frontend/                 # React frontend application
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   │   ├── Auth/       # Login & Register components
-│   │   │   └── ui/         # Headless UI components (Dialog, Button, Form)
-│   │   ├── context/        # React Context (AuthContext)
-│   │   ├── pages/          # Page components
-│   │   │   ├── Auth.jsx    # Authentication page
-│   │   │   ├── BoardList.jsx  # Board list page
-│   │   │   └── BoardDetail.jsx # Kanban board page
-│   │   ├── services/       # API service layer
-│   │   ├── App.jsx         # Main app component
-│   │   └── main.jsx        # Entry point
-│   ├── public/             # Static assets
-│   └── package.json        # Frontend dependencies
+├── frontend/
+│   └── src/
+│       ├── components/
+│       │   ├── Layout.jsx          # Sidebar + nav shell
+│       │   └── ProtectedRoute.jsx
+│       ├── context/
+│       │   └── AuthContext.jsx     # Auth state (user, role)
+│       ├── pages/
+│       │   ├── Auth.jsx            # Login / Register
+│       │   ├── Dashboard.jsx       # Stats & overview
+│       │   ├── ProjectList.jsx     # All projects
+│       │   └── ProjectDetail.jsx   # Kanban board + members
+│       └── services/
+│           └── api.js              # Axios wrappers for all endpoints
 │
-└── backend/                 # Node.js backend application
-    ├── src/
-    │   ├── config/         # Configuration files
-    │   │   └── prisma.js   # Prisma client
-    │   ├── controllers/    # Route controllers
-    │   │   ├── authController.js
-    │   │   ├── boardController.js
-    │   │   ├── columnController.js
-    │   │   └── taskController.js
-    │   ├── middleware/     # Express middleware
-    │   │   └── auth.js     # JWT authentication
-    │   ├── routes/         # API routes
-    │   │   ├── auth.js
-    │   │   ├── board.js
-    │   │   ├── column.js
-    │   │   └── task.js
-    │   └── server.js       # Express server
+└── backend/
     ├── prisma/
-    │   ├── schema.prisma   # Database schema
-    │   └── migrations/     # Database migrations
-    └── package.json        # Backend dependencies
+    │   └── schema.prisma           # All models + enums
+    └── src/
+        ├── controllers/
+        │   ├── authController.js
+        │   ├── projectController.js
+        │   ├── memberController.js
+        │   ├── columnController.js
+        │   ├── taskController.js
+        │   └── dashboardController.js
+        ├── middleware/
+        │   └── auth.js             # JWT verification
+        ├── routes/
+        │   ├── auth.js
+        │   ├── project.js          # Projects + members + columns
+        │   ├── task.js
+        │   └── dashboard.js
+        └── server.js
 ```
 
-## 🔧 Installation & Setup
+## Getting Started
 
 ### Prerequisites
-- Node.js >= 18.0.0
-- PostgreSQL database
-- npm or yarn
+- Node.js >= 18
+- PostgreSQL database (or a Supabase project)
 
-### 1. Clone the Repository
+### 1. Clone
 ```bash
 git clone https://github.com/Deepak-vm/Kando.git
 cd Kando
 ```
 
-### 2. Backend Setup
+### 2. Backend
 
 ```bash
 cd backend
-
-# Install dependencies
 npm install
-
-# Create .env file
-cp .env.example .env
 ```
 
-**Configure `.env` file:**
+Create a `.env` file:
 ```bash
-DATABASE_URL="postgresql://username:password@localhost:5432/Kando"
-JWT_SECRET="your-super-secret-jwt-key-change-in-production"
+DATABASE_URL="postgresql://username:password@host:5432/dbname"
+JWT_SECRET="a-long-random-secret"
 PORT=3000
 FRONTEND_URL="http://localhost:5173"
 ```
 
-**Run Prisma migrations:**
+Apply the schema and generate the Prisma client:
 ```bash
+npx prisma db push
 npx prisma generate
-npx prisma migrate dev
 ```
 
-**Start the backend server:**
+Start the server:
 ```bash
 npm run dev
 ```
 
-Backend will run on `http://localhost:3000`
+Backend runs on `http://localhost:3000`
 
-### 3. Frontend Setup
+### 3. Frontend
 
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Create .env file
-cp .env.example .env
 ```
 
-**Configure `.env` file:**
+Create a `.env` file:
 ```bash
 VITE_BACKEND_URL="http://localhost:3000"
 ```
 
-**Start the frontend server:**
+Start the dev server:
 ```bash
 npm run dev
 ```
 
-Frontend will run on `http://localhost:5173`
+Frontend runs on `http://localhost:5173`
 
+## API Reference
 
+### Auth
+| Method | Path | Description | Auth |
+|--------|------|-------------|------|
+| POST | `/auth/register` | Create account | No |
+| POST | `/auth/login` | Login | No |
 
-## 🔐 API Endpoints
+### Projects
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| GET | `/projects` | List my projects | Any |
+| POST | `/projects` | Create project | Any |
+| GET | `/projects/:id` | Get project + board | Member |
+| PUT | `/projects/:id` | Update project | Admin |
+| DELETE | `/projects/:id` | Delete project | Admin |
 
-### Authentication
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - Login user
+### Members
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| GET | `/projects/:id/members` | List members | Member |
+| POST | `/projects/:id/members` | Add member by email | Admin |
+| PUT | `/projects/:id/members/:mId` | Change role | Admin |
+| DELETE | `/projects/:id/members/:mId` | Remove member | Admin |
 
-### Boards (Protected)
-- `GET /board` - Get all boards for user
-- `GET /board/:id` - Get single board
-- `POST /board` - Create new board
-- `PUT /board/:id` - Update board
-- `DELETE /board/:id` - Delete board
+### Columns
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| GET | `/projects/:id/columns` | List columns | Member |
+| POST | `/projects/:id/columns` | Create column | Admin |
+| POST | `/projects/:id/columns/reorder` | Reorder columns | Admin |
+| PUT | `/projects/:id/columns/:cId` | Rename column | Admin |
+| DELETE | `/projects/:id/columns/:cId` | Delete column | Admin |
 
-### Columns (Protected)
-- `GET /boards/:boardId/columns` - Get all columns for board
-- `POST /boards/:boardId/columns` - Create new column
-- `PUT /columns/:id` - Update column
-- `DELETE /columns/:id` - Delete column
+### Tasks
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| POST | `/columns/:cId/tasks` | Create task | Member |
+| GET | `/tasks/:id` | Get task detail | Member |
+| PUT | `/tasks/:id` | Update task | Member |
+| DELETE | `/tasks/:id` | Delete task | Admin or Creator |
+| POST | `/tasks/reorder` | Reorder tasks | Member |
 
-### Tasks (Protected)
-- `GET /columns/:columnId/tasks` - Get all tasks for column
-- `GET /tasks/:id` - Get single task
-- `POST /columns/:columnId/tasks` - Create new task
-- `PUT /tasks/:id` - Update task
-- `DELETE /tasks/:id` - Delete task
+### Dashboard
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/dashboard` | Stats for current user |
 
-### Health Check
-- `GET /health` - Check database connection
+### Health
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/health` | Database connection check |
 
+## Security
 
+- Passwords hashed with bcryptjs (10 salt rounds)
+- JWT tokens expire after 7 days
+- All non-auth routes require a valid Bearer token
+- Role checks enforced server-side on every mutating request
+- Assignees validated as project members before being set
+- Cascade deletes keep the database consistent
 
-## 🔒 Security Features
+## Roadmap
 
-- **Password Hashing**: bcryptjs with salt rounds
-- **JWT Authentication**: Secure token-based auth
-- **Protected Routes**: Middleware validation on all protected endpoints
-- **CORS Configuration**: Controlled cross-origin access
-- **Input Validation**: Server-side validation on all inputs
-- **Ownership Verification**: Users can only access their own data
-- **Cascade Deletes**: Automatically cleans up related data
-
-
-### 🗺️ Future Updates
-
-- [ ] Board sharing and collaboration
-- [ ] Real-time updates with WebSockets
-- [ ] Email notifications
+- [ ] Real-time updates via WebSockets
+- [ ] Email notifications for task assignments
+- [ ] File attachments on tasks
 - [ ] Dark mode
+- [ ] Activity log per project
 

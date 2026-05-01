@@ -2,20 +2,14 @@ import axios from 'axios';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-
 const api = axios.create({
     baseURL: BACKEND_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
 });
-
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
 
@@ -24,6 +18,7 @@ api.interceptors.response.use(
     (error) => {
         if (error.response?.status === 401) {
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
             window.location.href = '/login';
         }
         return Promise.reject(error);
@@ -35,39 +30,39 @@ export const authAPI = {
     login: (data) => api.post('/auth/login', data),
 };
 
-export const boardAPI = {
-    getAll: () => api.get('/board'),
-    getById: (id) => api.get(`/board/${id}`),
-    create: (data) => api.post('/board', data),
-    update: (id, data) => api.put(`/board/${id}`, data),
-    delete: (id) => api.delete(`/board/${id}`),
+export const projectAPI = {
+    getAll: () => api.get('/projects'),
+    getById: (id) => api.get(`/projects/${id}`),
+    create: (data) => api.post('/projects', data),
+    update: (id, data) => api.put(`/projects/${id}`, data),
+    delete: (id) => api.delete(`/projects/${id}`),
+};
+
+export const memberAPI = {
+    getAll: (projectId) => api.get(`/projects/${projectId}/members`),
+    add: (projectId, data) => api.post(`/projects/${projectId}/members`, data),
+    updateRole: (projectId, memberId, data) => api.put(`/projects/${projectId}/members/${memberId}`, data),
+    remove: (projectId, memberId) => api.delete(`/projects/${projectId}/members/${memberId}`),
 };
 
 export const columnAPI = {
-    getAll: (boardId) => api.get(`/boards/${boardId}/columns`),
-    create: (boardId, data) => api.post(`/boards/${boardId}/columns`, data),
-    update: (id, data) => api.put(`/columns/${id}`, data),
-    delete: (id) => api.delete(`/columns/${id}`),
-    reorder: (data) => api.post('/columns/reorder', data),
+    getAll: (projectId) => api.get(`/projects/${projectId}/columns`),
+    create: (projectId, data) => api.post(`/projects/${projectId}/columns`, data),
+    update: (projectId, columnId, data) => api.put(`/projects/${projectId}/columns/${columnId}`, data),
+    delete: (projectId, columnId) => api.delete(`/projects/${projectId}/columns/${columnId}`),
+    reorder: (projectId, data) => api.post(`/projects/${projectId}/columns/reorder`, data),
 };
 
 export const taskAPI = {
-    getAll: (columnId) => api.get(`/columns/${columnId}/tasks`),
-    getById: (id) => api.get(`/tasks/${id}`),
     create: (columnId, data) => api.post(`/columns/${columnId}/tasks`, data),
+    getById: (id) => api.get(`/tasks/${id}`),
     update: (id, data) => api.put(`/tasks/${id}`, data),
     delete: (id) => api.delete(`/tasks/${id}`),
     reorder: (data) => api.post('/tasks/reorder', data),
-    uploadAttachment: (taskId, file) => {
-        const formData = new FormData();
-        formData.append('file', file);
-        return api.post(`/tasks/${taskId}/attachments`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-    },
-    deleteAttachment: (attachmentId) => api.delete(`/attachments/${attachmentId}`),
+};
+
+export const dashboardAPI = {
+    get: () => api.get('/dashboard'),
 };
 
 export default api;

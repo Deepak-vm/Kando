@@ -3,8 +3,9 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Auth from './pages/Auth';
-import BoardList from './pages/BoardList';
-import BoardDetail from './pages/BoardDetail';
+import Dashboard from './pages/Dashboard';
+import ProjectList from './pages/ProjectList';
+import ProjectDetail from './pages/ProjectDetail';
 
 function App() {
   return (
@@ -12,25 +13,35 @@ function App() {
       <AuthProvider>
         <Toaster position="top-right" />
         <Routes>
-          <Route path="/" element={<Navigate to="/boards" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<Auth />} />
           <Route path="/register" element={<Auth />} />
           <Route
-            path="/boards"
+            path="/dashboard"
             element={
               <ProtectedRoute>
-                <BoardList />
+                <Dashboard />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/boards/:id"
+            path="/projects"
             element={
               <ProtectedRoute>
-                <BoardDetail />
+                <ProjectList />
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <ProjectDetail />
+              </ProtectedRoute>
+            }
+          />
+          {/* Legacy redirect */}
+          <Route path="/boards" element={<Navigate to="/projects" replace />} />
         </Routes>
       </AuthProvider>
     </Router>
